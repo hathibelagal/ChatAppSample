@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                             .getDisplayName(),
                     Toast.LENGTH_LONG)
                     .show();
+
+            displayChatMessages();
         }
 
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
@@ -72,26 +74,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
-
-        adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
-                R.layout.message, FirebaseDatabase.getInstance().getReference()) {
-            @Override
-            protected void populateView(View v, ChatMessage model, int position) {
-                // Get references to the views of message.xml
-                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
-                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
-
-                // Set their text
-                messageText.setText(model.getMessageText());
-                messageUser.setText(model.getMessageUser());
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
-            }
-        };
-        
-        listOfMessages.setAdapter(adapter);
     }
 
     @Override
@@ -103,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                         "Successfully signed in. Welcome!",
                         Toast.LENGTH_LONG)
                         .show();
+
+                displayChatMessages();
             } else {
                 Toast.makeText(this,
                         "We couldn't sign you in. Please try again later.",
@@ -137,5 +121,28 @@ public class MainActivity extends AppCompatActivity {
                 });
         }
         return true;
+    }
+
+    private void displayChatMessages() {
+        ListView listOfMessages = (ListView)findViewById(R.id.list_of_messages);
+
+        adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
+                R.layout.message, FirebaseDatabase.getInstance().getReference()) {
+            @Override
+            protected void populateView(View v, ChatMessage model, int position) {
+                // Get references to the views of message.xml
+                TextView messageText = (TextView)v.findViewById(R.id.message_text);
+                TextView messageUser = (TextView)v.findViewById(R.id.message_user);
+                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+
+                // Set their text
+                messageText.setText(model.getMessageText());
+                messageUser.setText(model.getMessageUser());
+                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                        model.getMessageTime()));
+            }
+        };
+
+        listOfMessages.setAdapter(adapter);
     }
 }

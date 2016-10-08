@@ -3,7 +3,7 @@ package com.tutsplus.mychatapp;
 import java.util.Date;
 
 /**
- * Created by simplemo on 7/10/16.
+ * Created by Hathibelagal on 7/10/16.
  */
 public class ChatMessage {
 
